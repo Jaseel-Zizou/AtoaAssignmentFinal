@@ -1,7 +1,7 @@
 EFK Stack on Kubernetes
 --------------------------
 
-1. git clone https://github.com/scriptcamp/kubernetes-efk
+1. git clone https://github.com/Jaseel-Zizou/AtoaAssignmentFinal.git
 2. cd elasticsearch
    kubectl create -f .
 3. cd ../kibana   
