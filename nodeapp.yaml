@@ -7,6 +7,6 @@ metadata:
 spec:
   containers:
   - name: nodeApp
-    image: jaseelkkk/jaseelkk:1
+    image: jaseelkkk/jaseel:1
     ports:
     - containerPort: 3000
