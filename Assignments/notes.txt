@@ -1,0 +1,111 @@
+1. Created a VM from AWS(amazon linux machine 2).
+2. sudo yum install git -y
+3. git clone https://github.com/ATOAPaymentsLimited/SampleExpressApp
+4. cd SampleExpressApp/
+5. vim  Dockerfile
+     
+  FROM node:16
+
+  # Create app directory
+  WORKDIR /usr/src/app
+
+  # Install app dependencies
+  # A wildcard is used to ensure both package.json AND package-lock.json are copied
+  # where available (npm@5+)
+  COPY package*.json ./
+
+  RUN npm install
+  # If you are building your code for production
+  # RUN npm ci --only=production
+
+  # Bundle app source
+  COPY . .
+
+  EXPOSE 3000
+  CMD [ "node", "index.js" ]
+
+6. sudo yum install docker -y
+7. sudo service docker restart
+8. sudo chkconfig docker on
+9. sudo usermod -a -G docker ec2-user
+10. reconnect
+11. docker build -t jaseel:1 .
+12. docker tag jaseel:1 jaseelkkk/jaseel:1
+13. docker login
+14. docker push jaseelkkk/jaseel:1
+15. Open port 3000 in security group inbound rule.
+
+//Run using Docker compose
+
+16. sudo curl -L "https://github.com/docker/compose/releases/download/1.24.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+17. sudo chmod +x /usr/local/bin/docker-compose
+18. docker-compose config
+19. vim docker-compose.yml
+
+version: "3"
+
+services:
+ apps:
+       image: jaseel:1
+       container_name: express_app
+       restart: always
+       ports:
+       - "3000:3000"
+
+20. docker-compose up -d
+21. curl localhost:3000
+
+Hello World!
+
+//Run this on GKE
+
+22. kubectl create deployment expressapp --image=jaseelkkk/jaseel:1 --replicas=1 --dry-run=client -o yaml > deploy.yaml
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: expressapp
+  name: expressapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: expressapp
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: expressapp
+    spec:
+      containers:
+      - image: jaseelkkk/jaseel:1
+        name: jaseel
+        resources: {}
+status: {}
+
+
+23. kubectl apply -f deploy.yaml
+
+24. kubectl autoscale deployment  expressapp    --cpu-percent=50 --min=1 --max=10 --dry-run=client -o yaml > autoscaling.yaml
+
+  apiVersion: autoscaling/v1
+  kind: HorizontalPodAutoscaler
+  metadata:
+    creationTimestamp: null
+    name: expressapp
+  spec:
+    maxReplicas: 10
+    minReplicas: 1
+    scaleTargetRef:
+      apiVersion: apps/v1
+      kind: Deployment
+      name: expressapp
+    targetCPUUtilizationPercentage: 50
+  status:
+    currentReplicas: 0
+    desiredReplicas: 0
+
+25. kubectl apply -f autoscaling.yaml    
