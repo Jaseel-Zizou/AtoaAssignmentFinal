@@ -1,17 +1,19 @@
 EFK Stack on Kubernetes
 --------------------------
 
-1. git clone https://github.com/Jaseel-Zizou/AtoaAssignmentFinal.git
-2. cd elasticsearch
-   kubectl create -f .
-3. cd ../kibana   
-   kubectl create -f .
-4. kubectl create -f test-pod.yaml
-5. helm install fluentd bitnami/fluentd
-6. kubectl delete -f configmap.yaml   
-7. kubectl create -f configmap.yaml   
-8. kubectl port-forward es-cluster-0 9200:9200
-9. kubectl port-forward <kibana-pod-name> 5601:5601
-10.http://localhost:5601/app/kibana
-11.Create Index pattern(logstash*)
-12.Check Discover tab
+* git clone https://github.com/Jaseel-Zizou/AtoaAssignmentFinal.git
+* cd elasticsearch
+  kubectl create -f .
+* cd ../kibana   
+  kubectl create -f .
+* kubectl create -f nodeapp-pod.yaml
+* kubectl create -f nodeapp-svc.yaml
+  Access <nodePort>:30007
+* helm install fluentd bitnami/fluentd
+* kubectl delete -f configmap.yaml   
+* kubectl create -f configmap.yaml   
+* kubectl port-forward es-cluster-0 9200:9200
+* kubectl port-forward <kibana-pod-name> 5601:5601
+* http://localhost:5601/app/kibana
+* Create Index pattern(logstash*)
+* Check Discover tab
