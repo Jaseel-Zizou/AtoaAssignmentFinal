@@ -2,7 +2,7 @@ version: "3"
 
 services:
  apps:
-       image: jaseel:1
+       image: jaseelkkk/jaseel:1
        container_name: express_app
        restart: always
        ports:
