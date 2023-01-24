@@ -1,6 +1,6 @@
 EFK Stack on Kubernetes
 --------------------------
-
+* Create a Kubernetes cluster
 * git clone https://github.com/Jaseel-Zizou/AtoaAssignmentFinal.git
 * cd elasticsearch
   kubectl create -f .
